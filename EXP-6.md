@@ -67,6 +67,7 @@ ylabel('Amplitude');
 
 title('Carrier 2 (120 Hz)');
 
+
 subplot(4,1,4);
 
 plot(t,s1);
