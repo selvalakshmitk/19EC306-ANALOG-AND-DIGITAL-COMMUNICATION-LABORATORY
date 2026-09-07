@@ -1,88 +1,72 @@
 # AIM:
-To implement FSK using MATLAB.
+To implement error control coding schemes with linear block codes using MATLAB.
 
-# SOFTWARE REQUIRED:
-MATLAB
+# SOFTWARE REQUIRED: 
+  MATLAB
 
 # PROGRAM:
+# ERROR CODING
+# ENCODING:
 clc;
-
-clear;
 
 close all;
 
-t = 0:0.0001:0.15;
+n = 7;
 
-m = square(2*pi*10*t);
+k = 4;
 
-c1 = sin(2*pi*60*t);
+msg = [1 0 0 1;
+       1 0 1 0;
+       1 0 1 1];
+       
+code = encode(msg, n, k, 'cyclic');
 
-c2 = sin(2*pi*120*t);
+msg
 
-s1 = zeros(size(t));
-
-for i = 1:length(t)
-
-    if m(i) == 1
-    
-        s1(i) = c1(i);
-        
-    else
-    
-        s1(i) = c2(i);
-        
-    end
-    
-end
-
-figure;
-
-subplot(4,1,1);
-
-plot(t,m);
-
-xlabel('Time (s)');
-
-ylabel('Amplitude');
-
-title('Message Signal');
-
-subplot(4,1,2);
-
-plot(t,c1);
-
-xlabel('Time (s)');
-
-ylabel('Amplitude');
-
-title('Carrier 1 (60 Hz)');
-
-subplot(4,1,3);
-
-plot(t,c2);
-
-xlabel('Time (s)');
-
-ylabel('Amplitude');
-
-title('Carrier 2 (120 Hz)');
+code
+# ENCODING OUTPUT:
+<img width="473" height="322" alt="image" src="https://github.com/user-attachments/assets/32dee773-48ef-47ea-a1c0-b01f4ff15cf3" />
 
 
-subplot(4,1,4);
+# DECODING PROGRAM:
+clc;
 
-plot(t,s1);
+clear all;
 
-xlabel('Time (s)');
+close all;
 
-ylabel('Amplitude');
+q = 3;
 
-title('BFSK Modulated Output');
+n = 2^q - 1;
 
-# OUTPUT:
-<img width="838" height="608" alt="image" src="https://github.com/user-attachments/assets/1c58c78b-5276-44af-ad21-cee33eb6c871" />
+k = n - q;
+
+parmat = hammgen(q);
+
+trt = syndtable(parmat);
+
+recd = [1 0 1 1 1 1 0];
+
+syndrome = rem(recd * parmat', 2);
+
+syndrome_de = bi2de(syndrome, 'left-msb');
+
+disp(['syndrome = ', num2str(syndrome_de), ' (decimal) ', ...
+      num2str(syndrome), ' (binary)']);
+
+corrvect = trt(1 + syndrome_de, :);
+
+correctedcode = rem(corrvect + recd, 2);
+
+parmat
+
+correct
+
+correctedcode
+
+# DECODING OUTPUT:
+<img width="415" height="267" alt="image" src="https://github.com/user-attachments/assets/ce1e6214-cb04-444d-be85-f347f8dd1627" />
 
 # RESULT:
-Thus, generation of FSK was implemented using MATLAB.
-
-
+Thus encoding and decoding of block codes are performed using MATLAB.
 
