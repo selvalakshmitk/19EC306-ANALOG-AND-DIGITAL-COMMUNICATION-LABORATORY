@@ -1,7 +1,7 @@
 # AIM:
 To implement error control coding schemes with linear block codes using MATLAB.
 
-# SOFTWARE REQUIRED: 
+# SOFTWARE REQUIRED:  
   MATLAB
 
 # PROGRAM:
